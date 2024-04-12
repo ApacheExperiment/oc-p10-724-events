@@ -12,7 +12,7 @@ const Slider = () => {
   useEffect(() => {
     if (data) {
       const sortedData = data.focus.sort((evtA, evtB) =>
-        new Date(evtB.date) < new Date(evtA.date) ? -1 : 1 // Principe d'ordre d'apparition de la photo la plus ancienne à la plus récente
+        new Date(evtA.date) < new Date(evtB.date) ? -1 : 1 // Principe d'ordre d'apparition de la photo la plus ancienne à la plus récente
       );
       setByDateDesc(sortedData);
     }

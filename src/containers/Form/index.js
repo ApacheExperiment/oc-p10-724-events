@@ -4,7 +4,14 @@ import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
-const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000); })
+const mockContactApi = () => 
+  new Promise((resolve) => 
+    // L'API simulé est trop lente
+    // Il faut réduire sa durée de 1000 à 900
+    // Message d'erreur menant à la piste: 
+    // When Form is created > and a click is triggered on the submit button > the success message is displayed
+    // Error: Unable to find an element with the text: Message envoyé !. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+    { setTimeout(resolve, 900); })
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
@@ -37,7 +44,11 @@ const Form = ({ onSuccess, onError }) => {
             titleEmpty
           />
           <Field placeholder="" label="Email" />
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
+          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}
+          // Error: When Form is created > and a click is triggered on the submit button > the success message is displayed
+          // La fonction onSuccess doit être appeé lorsque le formulaire est soumis
+          onClick={() => onSuccess()}
+          >
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
