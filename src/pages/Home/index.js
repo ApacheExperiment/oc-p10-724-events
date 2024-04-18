@@ -10,11 +10,13 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
+import ModalEvent from "../../containers/ModalEvent";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
-  return <>
+  const {last} = useData();
+  return (
+   <>
     <header>
       <Menu />
     </header>
@@ -22,6 +24,7 @@ const Page = () => {
       <section className="SliderContainer">
         <Slider />
       </section>
+      {/* Ajout de l'ancrage "nos services " */}
       <section id="nos-services" className="ServicesContainer">
         <h2 className="Title">Nos services</h2>
         <p>Nous organisons des événements sur mesure partout dans le monde</p>
@@ -51,10 +54,12 @@ const Page = () => {
           </ServiceCard>
         </div>
       </section>
+      {/* Ajout de l'ancrage "nos réalisations" */}
       <section id="nos-realisations" className="EventsContainer">
         <h2 className="Title">Nos réalisations</h2>
         <EventList />
       </section>
+      {/* Ajout de l'ancrage "notre équipe" */}
       <section id="notre-equipe" className="PeoplesContainer">
         <h2 className="Title">Notre équipe</h2>
         <p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
@@ -116,13 +121,25 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
-        <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label={last?.type}
-        />
+        {/* 'imageSrc' et 'title' sont 'undefined */}
+        {!last ? (
+          "Loading last event..."
+        ) : (
+          /* intégration d'une modal pour avoir des informations sur l'événement */
+          <Modal key={last.id} Content={<ModalEvent event={last} />}>
+            {({ setIsOpened }) => (
+                <EventCard
+                  onClick={() => setIsOpened(true)}
+                  imageSrc={last?.cover}
+                  title={last?.title}
+                  date={new Date(last?.date)}
+                  small
+                  /* ajout du label de l'événement depuis son id "type" */
+                  label={last?.type}
+                />
+            )}
+          </Modal>
+        )}
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
@@ -155,6 +172,7 @@ const Page = () => {
       </div>
     </footer>
   </>
+  );
 }
 
 export default Page;

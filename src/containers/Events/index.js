@@ -28,13 +28,17 @@ const EventList = () => {
     }
     return false;
   });
+  const sortedEvents = filteredEvents.sort((a, b) => new Date(b.date) - new Date(a.date)); // Triage des évènements par ordre chronologique
+
   // console.log("Filtered events:", filteredEvents);
   const changeType = (evtType) => {
     // console.log("New type:", evtType);
     setCurrentPage(1);
     setType(evtType);
   };
-  const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
+  // Calcul du nombre total de pages en fonction du nombre d'événements après filtrage
+  const totalFilteredEvents = data?.events.filter(event => !type || event.type === type);
+  const pageNumber = Math.ceil((totalFilteredEvents?.length || 0) / PER_PAGE);
   const typeList = new Set(data?.events.map((event) => event.type));
   return (
     <>
@@ -49,7 +53,7 @@ const EventList = () => {
             onChange={(value) => (value ? changeType(value) : changeType(null))}
           />
           <div id="events" className="ListContainer">
-            {filteredEvents.map((event) => (
+            {sortedEvents.map((event) => ( // Pagination effectué par le trie chronologique
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
@@ -66,9 +70,10 @@ const EventList = () => {
           <div className="Pagination">
             {[...Array(pageNumber || 0)].map((_, n) => (
               // eslint-disable-next-line react/no-array-index-key
-              <a key={n} href="#events" onClick={() => setCurrentPage(n + 1)}>
+              <a key={n} href="#events" onClick={() => setCurrentPage(n + 1)}
+              className={currentPage === n + 1 ? "activePage" : ""}>
                 {n + 1}
-              </a>
+              </a> // Ajout d'une class CSS activePage pour distinguer le numéro de page
             ))}
           </div>
         </>

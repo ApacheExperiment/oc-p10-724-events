@@ -1,6 +1,7 @@
 @import "src/colors.scss";
 
 .SlideCardList {
+  overflow: hidden; //Permet au Carrousel de ne pas déborder de l'écran
   position: relative;
   width: 100%;
   max-width: 1440px;

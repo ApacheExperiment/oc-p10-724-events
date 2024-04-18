@@ -6,7 +6,7 @@ import Button, { BUTTON_TYPES } from "../../components/Button";
 
 const mockContactApi = () => 
   new Promise((resolve) => 
-    // L'API simulé est trop lente
+    // L'API émulé est trop lente
     // Il faut réduire sa durée de 1000 à 900
     // Message d'erreur menant à la piste: 
     // When Form is created > and a click is triggered on the submit button > the success message is displayed

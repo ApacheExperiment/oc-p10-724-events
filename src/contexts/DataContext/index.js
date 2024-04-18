@@ -19,9 +19,20 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  // Emplacement d'Event Card
+  const [last, setLast] = useState(null);
+  // Permet de retourner l'évènement "last" dans la colelction
+  const getLastEvent = (allEvents) => {
+    const byDateDesc = allEvents?.events.sort((evtA, evtB) =>
+      new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+    );
+    setLast(byDateDesc[0]);
+  }
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      const findData = await api.loadData();
+      setData(findData);
+      getLastEvent(findData);
     } catch (err) {
       setError(err);
     }
@@ -37,6 +48,7 @@ export const DataProvider = ({ children }) => {
       value={{
         data,
         error,
+        last, // Ajout de last
       }}
     >
       {children}
