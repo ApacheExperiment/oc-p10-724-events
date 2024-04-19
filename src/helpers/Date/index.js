@@ -12,5 +12,5 @@ export const MONTHS = {
   10: "novembre",
   11: "décembre",
 };
-
+// Le tableau doit commencer par une valeur 0 et non 1
 export const getMonth = (date) => MONTHS[date.getMonth()];

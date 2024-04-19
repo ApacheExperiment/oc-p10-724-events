@@ -12,8 +12,8 @@ const Slider = () => {
 );
 const nextCard = () => {
   // Ajout d'une vérification pour éviter les erreurs si byDateDesc est null ou undefined
-  setIndex(index < (byDateDesc && byDateDesc.lenght -1) ? index + 1 : 0);
-}
+  setIndex(index < (byDateDesc && byDateDesc.length - 1) ? index + 1 : 0);
+};
 useEffect(() => {
   const timeoutSlider = setTimeout(() => { // Utilisation de clearTimeout pour nettoyer le timeout à chaque mise à jour
     nextCard();
